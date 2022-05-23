@@ -104,4 +104,4 @@ theme: landscape
 deploy:
   type: git
   repo: https://github.com/liujiapeng550/liujiapeng.github.io
-  branch: main
+  branch: master
