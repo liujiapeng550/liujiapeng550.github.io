@@ -70,7 +70,7 @@ cover: images/如何搭建githpage个人blog/top_img.jpg
       
         ，如果看到如下效果，则证明hexo环境搭建成功:
       
-        ![image-20220524114542277](/images/如何搭建githpage个人blog/image-20220524114542277.png)
+        ![image-20220524114542277](https://mypicgo-1256286372.cos.ap-guangzhou.myqcloud.com/images/image-20220524114542277.png)
         
 
 # 2.Hexo+Typora写文章时图片显示不一致
@@ -81,7 +81,7 @@ cover: images/如何搭建githpage个人blog/top_img.jpg
 
 1.. Typora中图片路径
 
-![image-20220524113638326](/images/如何搭建githpage个人blog/image-20220524113638326.png)
+![image-20220524113638326](https://mypicgo-1256286372.cos.ap-guangzhou.myqcloud.com/images/image-20220524113638326.png)
 
 ../images/${filename}，文件保存到(自己的博客路径)/source/images
 

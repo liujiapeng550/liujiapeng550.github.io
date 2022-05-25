@@ -2,8 +2,7 @@
 title: OpenGL shader 装载流程
 date: 2022-05-24 20:05:15
 tags: c++
-top_img:
-cover:/cover/tag-bg-o.jpg
+cover: /cover/tag-bg-o.jpg
 ---
 
 1. shader代码可以用文本文件保存，可以在程序中用字符串保存，但最终还是必须在程序中以字符串的形式传入Shader对象中；

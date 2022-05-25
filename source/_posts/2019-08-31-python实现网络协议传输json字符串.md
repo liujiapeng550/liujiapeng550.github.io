@@ -1,14 +1,8 @@
 ---
-title:      python实现网络协议传输json字符串  
-date:       2019-01-30
-author:     JPeng
-top_img： /images/2019-08-31-python实现网络协议传输json字符串/python.png
-catalog: true
-tags:
-    - python
-    - 脚本
-    - TCP
-    - Json
+title: python实现网络协议传输json字符串  
+date: 2019-01-30
+top_img: /images/2019-08-31-python实现网络协议传输json字符串/python.png
+tags: python
 ---
 
 # 1.python TCP 代码
