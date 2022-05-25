@@ -1,3 +1,11 @@
+---
+title: OpenGL shader 装载流程
+date: 2022-05-24 20:05:15
+tags: c++
+top_img:
+cover:/cover/tag-bg-o.jpg
+---
+
 1. shader代码可以用文本文件保存，可以在程序中用字符串保存，但最终还是必须在程序中以字符串的形式传入Shader对象中；
 2. 创建Shader对象（glCreateShader——成功时返回非0的无符号Handle值，指涉Shader对象）；
 3. 把shader代码传入shader对象（glShaderSource——注意此函数的参数，字符流地址参量是GLchar*，不支持宽字符。执行后可删除内存上保存的shader代码字符串副本）；

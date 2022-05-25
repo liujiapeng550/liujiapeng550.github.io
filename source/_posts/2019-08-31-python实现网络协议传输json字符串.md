@@ -1,10 +1,8 @@
 ---
-layout:     post
-title:      python实现网络协议传输json字符串
-subtitle:   
+title:      python实现网络协议传输json字符串  
 date:       2019-01-30
 author:     JPeng
-header-img: img/python.png
+top_img： /images/2019-08-31-python实现网络协议传输json字符串/python.png
 catalog: true
 tags:
     - python
@@ -13,9 +11,6 @@ tags:
     - Json
 ---
 
-
-
-![image](https://github.com/liujiapeng550/liujiapeng550.github.io/blob/master/img/pythonTcp.jpg?raw=true)
 # 1.python TCP 代码
 client:
 

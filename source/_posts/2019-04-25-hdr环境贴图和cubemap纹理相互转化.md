@@ -1,4 +1,13 @@
+---
+title:HDR 环境贴图和CubeMap纹理转换
+date:2019-06-07 20:05:15
+tags: c++ 图形学
+
+
+---
+
 常见如下两种格式是环境贴图
+
 # 1.cubeMap由六张贴图组成的环境贴图
 
 ![image](https://learnopengl-cn.github.io/img/04/06/cubemaps_skybox.png)
