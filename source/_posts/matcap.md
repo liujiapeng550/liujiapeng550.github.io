@@ -5,7 +5,7 @@ subtitle:
 date:       2022-05-18
 author:     JPeng
 top_img: images/matcap/2.png
-catalog: true
+categories: 图形学
 typora-root-url: ..
 tags:
     - matcap材质

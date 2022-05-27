@@ -5,6 +5,7 @@ tags: blog github hexo
 typora-root-url: ..
 top_img: images/如何搭建githpage个人blog/top_img.jpg
 cover: images/如何搭建githpage个人blog/top_img.jpg
+categories: Hexo
 ---
 
 # 1.hexo博客基础环境搭建（非常详细）

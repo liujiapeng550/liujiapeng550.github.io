@@ -20,7 +20,7 @@ $$
 \end{aligned}
 $$
 下面是原始论文里面的不同的nu,nv值的效果：
-![Ashikhmin-Shirley03](https://mypicgo-1256286372.cos.ap-guangzhou.myqcloud.com/img/Ashikhmin-Shirley03.png)
+![Ashikhmin-Shirley03](../images/2018-06-30-AshikhminShirley/Ashikhmin-Shirley03.png)
 当nu=nv时，A.S模型就退化成了各向同性的模型，下面是原始论文里面的效果比较：![Ashikhmin-Shirley04](D:\gitDemo\liujiapeng550.github.io\img\Ashikhmin-Shirley04.png)
 
 
