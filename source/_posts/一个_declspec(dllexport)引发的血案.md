@@ -1,7 +1,7 @@
 ---
 title:  一个_declspec(dllexport)引发的血案
 date: 2022-05-24 19:41:15
-tags: c++
+tags: C++
 typora-root-url: ..
 categories: ++基础
 ---
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 
 ```
 
-将class A 改为 class  __declspec(dllexport) A ，就可以正常运行不会报错。
+将项目GenDll中的class A 改为 class  __declspec(dllexport) A ，就可以正常运行不会报错。
 
 ## 2. LNK2019无法解析外部符合***
 
