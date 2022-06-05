@@ -21,27 +21,24 @@ categories: Hexo
    1. 在nodejs环境中（cmd或者bash）安装hexo包
 
       ```
-      BASH
       npm install -g hexo-cli
       ```
-
+      
    2. 测试hexo是否成功
 
       - 初始化
 
         ```
-        BASH
         hexo init myBlog
         ```
-
+        
       - 安装基础环境包
-
+      
         ```
-        BASH
         cd myBlog
         npm install
         ```
-
+        
         执行成功后，myBlog文件夹的结构如下:
         
         
@@ -61,16 +58,15 @@ categories: Hexo
       - 本地启动hexo服务器进行测试
       
         ```
-        BASH
         hexo s
         ```
-      
+        
             在浏览器中输入
-      
+        
         [http://localhost:4000](http://localhost:4000/)
-      
+        
         ，如果看到如下效果，则证明hexo环境搭建成功:
-      
+        
         ![image-20220524114542277](https://mypicgo-1256286372.cos.ap-guangzhou.myqcloud.com/images/image-20220524114542277.png)
         
 
@@ -97,7 +93,6 @@ categories: Hexo
 在本地执行hexo的编译和发布命令，则可成功发布到github上
 
 ```
-BASH
 hexo clean # 删除以前的发布
 hexo g -d  # 重新编译生成，并按配置文件中的github信息，发布到对应的网站上
 ```
