@@ -3,7 +3,7 @@ title:  一个_declspec(dllexport)引发的血案
 date: 2022-05-24 19:41:15
 tags: C++
 typora-root-url: ..
-categories: ++基础
+categories: C++
 ---
 
 #  1.vs无法解析的外部符号常见解决方法
