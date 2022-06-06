@@ -107,15 +107,21 @@ deploy:
   branch: blog
 
 electric_clock:
-  priority: 5
-  enable: true
-  enable_page: all
-  layout:
+  enable: true # 开关
+  priority: 5 #过滤器优先权
+  enable_page: all # 应用页面
+  exclude:
+    - /posts/
+    - /about/
+  layout: # 挂载容器类型
     type: class
     name: sticky_layout
     index: 0
-  temple_html: '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading"></div></div></div></div></div>'
-
+  loading: https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif #加载动画自定义
+  clock_css: https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css
+  clock_js: https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js
+  ip_api: https://pv.sohu.com/cityjson?ie=utf-8
+  
 githubcalendar:
   enable: true
   enable_page: /  # 表示只在根目录(首页)显示
