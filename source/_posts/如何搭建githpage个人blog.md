@@ -96,3 +96,5 @@ categories: Hexo
 hexo clean # 删除以前的发布
 hexo g -d  # 重新编译生成，并按配置文件中的github信息，发布到对应的网站上
 ```
+# 4 美化
+https://akilar.top/

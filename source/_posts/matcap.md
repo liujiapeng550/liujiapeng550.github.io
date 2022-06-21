@@ -10,6 +10,7 @@ typora-root-url: ..
 tags:
     - matcap材质
 cover: images/matcap/2.png
+published: false
 ---
 
 ## 一Matcap是什么？
