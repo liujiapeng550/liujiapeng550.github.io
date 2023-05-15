@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>一个_declspec(dllexport)引发的血案 | JatPeng</title><meta name="author" content="liujiapeng"><meta name="copyright" content="liujiapeng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.vs无法解析的外部符号常见解决方法visaul Studio 经常遇到   “error LNK2019: 无法解析的外部符号 **，该符号在函数 **中被引用”的报错 常见原因是，没有加载到，动态库和静态库的.lib 文件，可能没有生成，或者路径不对。常规修改属性中的这连个配置。   2. 缺少**_declspec(dllexport)** 声明出现的两个报错1.LNK1104	无法打开文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个_declspec(dllexport)引发的血案">
+<meta property="og:url" content="http://jatpeng.cn/2022/05/24/2022-05-24-%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/index.html">
+<meta property="og:site_name" content="JatPeng">
+<meta property="og:description" content="1.vs无法解析的外部符号常见解决方法visaul Studio 经常遇到   “error LNK2019: 无法解析的外部符号 **，该符号在函数 **中被引用”的报错 常见原因是，没有加载到，动态库和静态库的.lib 文件，可能没有生成，或者路径不对。常规修改属性中的这连个配置。   2. 缺少**_declspec(dllexport)** 声明出现的两个报错1.LNK1104	无法打开文">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2022-05-24T11:41:15.000Z">
+<meta property="article:modified_time" content="2023-02-12T14:04:14.203Z">
+<meta property="article:author" content="liujiapeng">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://jatpeng.cn/2022/05/24/2022-05-24-%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '一个_declspec(dllexport)引发的血案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-12 22:04:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar_m.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="JatPeng"><span class="site-name">JatPeng</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">一个_declspec(dllexport)引发的血案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-05-24T11:41:15.000Z" title="Created 2022-05-24 19:41:15">2022-05-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-02-12T14:04:14.203Z" title="Updated 2023-02-12 22:04:14">2023-02-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="一个_declspec(dllexport)引发的血案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1-vs无法解析的外部符号常见解决方法"><a href="#1-vs无法解析的外部符号常见解决方法" class="headerlink" title="1.vs无法解析的外部符号常见解决方法"></a>1.vs无法解析的外部符号常见解决方法</h1><p>visaul Studio 经常遇到   “error LNK2019: 无法解析的外部符号 **，该符号在函数 **中被引用”的报错</p>
+<p>常见原因是，没有加载到，动态库和静态库的.lib 文件，可能没有生成，或者路径不对。常规修改属性中的这连个配置。</p>
+<p><img src="/images/%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/image-20220526153101516.png" alt="image-20220526153101516"></p>
+<p><img src="/images/%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/image-20220526153159453.png" alt="image-20220524123658895"></p>
+<h1 id="2-缺少-declspec-dllexport-声明出现的两个报错"><a href="#2-缺少-declspec-dllexport-声明出现的两个报错" class="headerlink" title="2. 缺少**_declspec(dllexport)** 声明出现的两个报错"></a>2. 缺少**_declspec(dllexport)** 声明出现的两个报错</h1><h2 id="1-LNK1104无法打开文件“-lib”"><a href="#1-LNK1104无法打开文件“-lib”" class="headerlink" title="1.LNK1104	无法打开文件“**.lib”"></a>1.LNK1104	无法打开文件“**.lib”</h2><p>在<strong>导出函数在声明和定义</strong>时，都一定要有关键字 <strong>_declspec(dllexport)</strong> ，这样才会同时生成 .dll 和 .lib 文件。</p>
+<p>例如：</p>
+<p>vs创建两个项目，GenDll项目生成动态库，UseDll项目使用GenDll中的函数，其中GenDll项目中，class A没有声明**_declspec(dllexport)**  ，在生成的动态库，只会生成dll，不会生成.lib文件。在编译UseDll报错，无法链接到GenDll.lib</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//项目GenDll</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//GenDll.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">res</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//GenDll.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GenDll.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">A::add</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//项目UseDll</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../../GenDll/Gendll/GenDll.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A a;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;100+1=&quot;</span> &lt;&lt; a.<span class="built_in">add</span>(<span class="number">100</span>, <span class="number">1</span>) &lt;&lt; std::endl;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//严重性	代码	说明	项目	文件	行	禁止显示状态</span></span><br><span class="line"><span class="comment">//错误	LNK1104	无法打开文件“GenDll.lib”	DllExample	C:\Users\liujiapeng01\Desktop\DllExample\DllExample\LINK	1	</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将项目GenDll中的class A 改为 class  __declspec(dllexport) A ，就可以正常运行不会报错。</p>
+<h2 id="2-LNK2019无法解析外部符合"><a href="#2-LNK2019无法解析外部符合" class="headerlink" title="2. LNK2019无法解析外部符合***"></a>2. LNK2019无法解析外部符合***</h2><p>对上面的项目进行修改，增加一个other class.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//项目GenDll</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//GenDll.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">__declspec</span>(dllexport) A</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">res</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span>  <span class="title class_">other</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">res</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//GenDll.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;GenDll.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">A::add</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">other::res</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//项目UseDll</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../../GenDll/Gendll/GenDll.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A a;</span><br><span class="line">	other o;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;100+1=&quot;</span> &lt;&lt; a.<span class="built_in">res</span>(<span class="number">100</span>, <span class="number">1</span>) &lt;&lt; std::endl;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;100+1=&quot;</span> &lt;&lt; o.<span class="built_in">res</span>(<span class="number">100</span>, <span class="number">1</span>) &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.obj : error LNK2019: 无法解析的外部符号 &quot;public: int __thiscall other::res(int,int)&quot; (?res@other@@QAEHHH@Z)，该符号在函数 _main 中被引用1&gt;C:\Users\liujiapeng01\Desktop\DllExample\Debug\DllExample.exe : fatal error LNK1120: 1 个无法解析的外部命令</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从错误中可以看出，无法解析other::res, 原因是项目GenDll 虽然生成了GenDll.lib，但是GenDll.lib中只有，Class A的链接信息，没有Class other的，因为Class A做了__declspec(dllexport)修饰，Class B没有做修饰。</p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p>__declspec(dllexport)可以修饰Class 也可以单独修饰一个函数，缺少修饰，其他项目在调用动态库的过程中都会缺少链接信息报错。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://jatpeng.cn">liujiapeng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://jatpeng.cn/2022/05/24/2022-05-24-%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/">http://jatpeng.cn/2022/05/24/2022-05-24-%E4%B8%80%E4%B8%AA_declspec(dllexport)%E5%BC%95%E5%8F%91%E7%9A%84%E8%A1%80%E6%A1%88/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/24/2022-05-24-C-string-%E6%8B%86%E5%88%86/" title="2022-05-24-C++ string 拆分"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">2022-05-24-C++ string 拆分</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/24/2022-05-24-Qt%20%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E4%BF%9D%E5%AD%98QtFile/" title="Qt 文件打开保存"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Qt 文件打开保存</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/06/23/2022-06-23-C-%E8%8E%B7%E5%8F%9616%E8%BF%9B%E5%88%B6%E6%95%B0%E6%8D%AE/" title="2022-06-23-C++获取16进制数据"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-23</div><div class="title">2022-06-23-C++获取16进制数据</div></div></a></div><div><a href="/2022/05/26/C-%E5%8A%A8%E6%80%81%E5%BA%93%E9%9D%99%E6%80%81%E5%BA%93/" title="C++动态库静态库"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-26</div><div class="title">C++动态库静态库</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar_m.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujiapeng</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-vs%E6%97%A0%E6%B3%95%E8%A7%A3%E6%9E%90%E7%9A%84%E5%A4%96%E9%83%A8%E7%AC%A6%E5%8F%B7%E5%B8%B8%E8%A7%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">1.vs无法解析的外部符号常见解决方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%BC%BA%E5%B0%91-declspec-dllexport-%E5%A3%B0%E6%98%8E%E5%87%BA%E7%8E%B0%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%8A%A5%E9%94%99"><span class="toc-number">2.</span> <span class="toc-text">2. 缺少**_declspec(dllexport)** 声明出现的两个报错</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-LNK1104%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E2%80%9C-lib%E2%80%9D"><span class="toc-number">2.1.</span> <span class="toc-text">1.LNK1104	无法打开文件“**.lib”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-LNK2019%E6%97%A0%E6%B3%95%E8%A7%A3%E6%9E%90%E5%A4%96%E9%83%A8%E7%AC%A6%E5%90%88"><span class="toc-number">2.2.</span> <span class="toc-text">2. LNK2019无法解析外部符合***</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%BB%E7%BB%93"><span class="toc-number">2.3.</span> <span class="toc-text">3.总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/12/2023-12-02-2D%E5%B9%B3%E9%9D%A2%E6%B2%B3%E6%B5%81/" title="No title"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2023/02/12/2023-12-02-2D%E5%B9%B3%E9%9D%A2%E6%B2%B3%E6%B5%81/" title="No title">No title</a><time datetime="2023-02-12T14:10:29.504Z" title="Created 2023-02-12 22:10:29">2023-02-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-13-python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-13-python字符串常规操作"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-13-python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作">2022-10-13-python字符串常规操作</a><time datetime="2022-10-10T09:29:30.000Z" title="Created 2022-10-10 17:29:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-13-python%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-13-python字符串常规操作"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-13-python%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作">2022-10-13-python字符串常规操作</a><time datetime="2022-10-10T09:29:30.000Z" title="Created 2022-10-10 17:29:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-10-%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5/" title="2022-10-10-资源文件检查"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-10-资源文件检查"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-10-%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5/" title="2022-10-10-资源文件检查">2022-10-10-资源文件检查</a><time datetime="2022-10-10T07:28:30.000Z" title="Created 2022-10-10 15:28:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/08/2022-09-08-python-PYQt5-vscode%E7%8E%AF%E5%A2%83/" title="2022-09-08-python PYQt5 vscode环境"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-09-08-python PYQt5 vscode环境"/></a><div class="content"><a class="title" href="/2022/09/08/2022-09-08-python-PYQt5-vscode%E7%8E%AF%E5%A2%83/" title="2022-09-08-python PYQt5 vscode环境">2022-09-08-python PYQt5 vscode环境</a><time datetime="2022-09-08T04:18:44.000Z" title="Created 2022-09-08 12:18:44">2022-09-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By liujiapeng</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = 'undefined';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>

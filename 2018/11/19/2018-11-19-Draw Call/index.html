@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Draw Call | JatPeng</title><meta name="author" content="liujiapeng"><meta name="copyright" content="liujiapeng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Draw Call就是CPU调用图形编程接口，比如DirectX或OpenGL，来命令GPU进行渲染的操作。例如，DirectX中的DrawIndexedPrimitive命令，OpenGL中的glDrawElement命令。  1.CPU和GPU并行工作的原理为了CPU和GPU可以并行工作，就需要一个命令缓冲区(Command Buffer)命令缓冲区包含了一个命令队列，由CPU向其中添加命令，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Draw Call">
+<meta property="og:url" content="http://jatpeng.cn/2018/11/19/2018-11-19-Draw%20Call/index.html">
+<meta property="og:site_name" content="JatPeng">
+<meta property="og:description" content="Draw Call就是CPU调用图形编程接口，比如DirectX或OpenGL，来命令GPU进行渲染的操作。例如，DirectX中的DrawIndexedPrimitive命令，OpenGL中的glDrawElement命令。  1.CPU和GPU并行工作的原理为了CPU和GPU可以并行工作，就需要一个命令缓冲区(Command Buffer)命令缓冲区包含了一个命令队列，由CPU向其中添加命令，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2018-11-19T12:05:15.000Z">
+<meta property="article:modified_time" content="2023-02-12T14:04:14.199Z">
+<meta property="article:author" content="liujiapeng">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://jatpeng.cn/2018/11/19/2018-11-19-Draw%20Call/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Draw Call',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-12 22:04:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar_m.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="JatPeng"><span class="site-name">JatPeng</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Draw Call</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2018-11-19T12:05:15.000Z" title="Created 2018-11-19 20:05:15">2018-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-02-12T14:04:14.199Z" title="Updated 2023-02-12 22:04:14">2023-02-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Draw Call"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Draw Call就是CPU调用图形编程接口，比如DirectX或OpenGL，来命令GPU进行渲染的操作。例如，DirectX中的DrawIndexedPrimitive命令，OpenGL中的glDrawElement命令。</p>
+<hr>
+<h2 id="1-CPU和GPU并行工作的原理"><a href="#1-CPU和GPU并行工作的原理" class="headerlink" title="1.CPU和GPU并行工作的原理"></a>1.CPU和GPU并行工作的原理</h2><p>为了CPU和GPU可以并行工作，就需要一个命令缓冲区(Command Buffer)命令缓冲区包含了一个命令队列，由CPU向其中添加命令，而由GPU从中读取命令。添加和读取的过程是相互独立的，因此命令缓冲区可以使CPU和GPU相互独立工作。当CPU需要渲染一些对象时，它可以向命令缓冲区添加命令，而GPU完成了上一次的渲染任务后，它就可以从命令队列里取出一个命令并执行它。命令缓冲区中的命令有很多种类，而Draw Call是其中的一种，其它命令还有改变渲染状态等命令（改变使用的Shader，使用不同的纹理等）</p>
+<h2 id="2-为什么-Draw-Call多了会影响帧率"><a href="#2-为什么-Draw-Call多了会影响帧率" class="headerlink" title="2.为什么 Draw Call多了会影响帧率?"></a>2.为什么 Draw Call多了会影响帧率?</h2><p>在每次调用Draw Call之前，CPU需要向GPU发送很多内容，包括数据，状态，命令等。在这一阶段，CPU需要完成很多工作，例如检查渲染状态等。而一旦CPU完成了这些准备工作，GPU就可以开始本次的渲染。GPU的渲染能力是很强的，渲染300个和3000个三角网格通常没有什么区别，因此渲染速度往往快于CPU提交命令的速度。如果Draw Call的数量太多，CPU就会把大量时间花费在提交Draw Call命令上，造成CPU的过载。*因此造成Draw Call性能问题的元凶是CPU。</p>
+<h2 id="3-如何减少DrawCall？"><a href="#3-如何减少DrawCall？" class="headerlink" title="3.如何减少DrawCall？"></a>3.如何减少DrawCall？</h2><p>提交大量很小的Draw Call会造成CPU的性能瓶颈，即CPU把时间都花费在准备Draw Call的工作上了。那么，一个很显然的优化想法就是把很多小的Draw Call合并成一个大的Draw Call,这就是批处理的思想。需要注意的是，由于我们需要在CPU的内存中合并网格，而合并的过程是需要消耗时间的。因此，批处理更适合静态的物体，例如不会移动的大地，石头等，对于这些静态物体我们只需合并一次即可。当然，我们也可以对动态物体进行批处理。但是，由于这些物体是不断运动的，因此每一帧都需要重新进行合并然后再发送给GPU，这对空间和时间都会造成一定的影响。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://jatpeng.cn">liujiapeng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://jatpeng.cn/2018/11/19/2018-11-19-Draw%20Call/">http://jatpeng.cn/2018/11/19/2018-11-19-Draw%20Call/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/c/">c++</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/01/30/2019-08-31-python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E4%BC%A0%E8%BE%93json%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="python实现网络协议传输json字符串"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">python实现网络协议传输json字符串</div></div></a></div><div class="next-post pull-right"><a href="/2018/10/03/2018-10-03-%E4%B8%A4%E7%A7%8D%E9%A1%B6%E7%82%B9%E4%BC%A0%E9%80%92%E5%B1%9E%E6%80%A7%E6%96%B9%E5%BC%8F/" title="两种顶点传递属性方式"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">两种顶点传递属性方式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/05/24/2018-11-09-%E7%BA%A2%E9%BB%91%E6%A0%91/" title="红黑树"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">红黑树</div></div></a></div><div><a href="/2022/05/24/2019-11-25-%E7%90%83%E8%B0%90%E5%85%89%E7%85%A7/" title="球谐光照"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">球谐光照</div></div></a></div><div><a href="/2022/05/24/2022-05-24-C-string-%E6%8B%86%E5%88%86/" title="2022-05-24-C++ string 拆分"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">2022-05-24-C++ string 拆分</div></div></a></div><div><a href="/2022/05/24/2019-03-23-OpenGL%20shader%20%E8%A3%85%E8%BD%BD%E6%B5%81%E7%A8%8B/" title="OpenGL shader 装载流程"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">OpenGL shader 装载流程</div></div></a></div><div><a href="/2022/05/24/2022-05-24-Qt%20%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E4%BF%9D%E5%AD%98QtFile/" title="Qt 文件打开保存"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">Qt 文件打开保存</div></div></a></div><div><a href="/2022/05/24/char%5B%5D%EF%BC%8Cchar%20%EF%BC%8Cstring%E4%B9%8B%E9%97%B4%E8%BD%AC%E6%8D%A2/" title="char[]，char *，string之间转换"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-24</div><div class="title">char[]，char *，string之间转换</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar_m.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">liujiapeng</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CPU%E5%92%8CGPU%E5%B9%B6%E8%A1%8C%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">1.CPU和GPU并行工作的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88-Draw-Call%E5%A4%9A%E4%BA%86%E4%BC%9A%E5%BD%B1%E5%93%8D%E5%B8%A7%E7%8E%87"><span class="toc-number">2.</span> <span class="toc-text">2.为什么 Draw Call多了会影响帧率?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91DrawCall%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">3.如何减少DrawCall？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/12/2023-12-02-2D%E5%B9%B3%E9%9D%A2%E6%B2%B3%E6%B5%81/" title="No title"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2023/02/12/2023-12-02-2D%E5%B9%B3%E9%9D%A2%E6%B2%B3%E6%B5%81/" title="No title">No title</a><time datetime="2023-02-12T14:10:29.504Z" title="Created 2023-02-12 22:10:29">2023-02-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-13-python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-13-python字符串常规操作"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-13-python%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作">2022-10-13-python字符串常规操作</a><time datetime="2022-10-10T09:29:30.000Z" title="Created 2022-10-10 17:29:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-13-python%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-13-python字符串常规操作"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-13-python%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" title="2022-10-13-python字符串常规操作">2022-10-13-python字符串常规操作</a><time datetime="2022-10-10T09:29:30.000Z" title="Created 2022-10-10 17:29:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/10/2022-10-10-%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5/" title="2022-10-10-资源文件检查"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-10-10-资源文件检查"/></a><div class="content"><a class="title" href="/2022/10/10/2022-10-10-%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5/" title="2022-10-10-资源文件检查">2022-10-10-资源文件检查</a><time datetime="2022-10-10T07:28:30.000Z" title="Created 2022-10-10 15:28:30">2022-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/08/2022-09-08-python-PYQt5-vscode%E7%8E%AF%E5%A2%83/" title="2022-09-08-python PYQt5 vscode环境"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2022-09-08-python PYQt5 vscode环境"/></a><div class="content"><a class="title" href="/2022/09/08/2022-09-08-python-PYQt5-vscode%E7%8E%AF%E5%A2%83/" title="2022-09-08-python PYQt5 vscode环境">2022-09-08-python PYQt5 vscode环境</a><time datetime="2022-09-08T04:18:44.000Z" title="Created 2022-09-08 12:18:44">2022-09-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By liujiapeng</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = 'undefined';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = '/posts/,/about/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --></body></html>
